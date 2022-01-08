@@ -16,13 +16,13 @@ For versioning purposes, only removal of a non-optional field or alteration of a
 
 ## Design
 
-The v0 API is essentially a dump of our in-memory data structures. We know, what works great locally in memory isn't so hot over the network. Many of the awkward things are just the way LN works internally. Want to know the total number of comments on an article? Traverse the tree and count. Want to know the children of an item? Load the item and get their IDs, then load them. The newest page? Starts at item maxid and walks backward, keeping only the top level stories. Same for Ask, Show, etc.
+The v0 API is essentially a dump of our in-memory data structures. We know, what works great locally in memory isn't so hot over the network. Many of the awkward things are just the way laarc works internally. Want to know the total number of comments on an article? Traverse the tree and count. Want to know the children of an item? Load the item and get their IDs, then load them. The newest page? Starts at item maxid and walks backward, keeping only the top level stories. Same for Ask, Show, etc.
 
-I'm not saying this to defend it - It's not the ideal public API, but it's the one we could release in the time we had. While awkward, it's possible to implement most of LN using it.
+I'm not saying this to defend it - It's not the ideal public API, but it's the one we could release in the time we had. While awkward, it's possible to implement most of laarc using it.
 
 ## Items
 
-Stories, comments, and Ask LNs are just items. They're identified by their ids, which are unique integers, and live under `/v0/item/<id>`.
+Stories, comments, and Ask laarcs are just items. They're identified by their ids, which are unique integers, and live under `/v0/item/<id>`.
 
 All items have some of the following properties, with required properties in bold:
 
@@ -131,7 +131,7 @@ Example: https://laarrc.firebaseio.com/v0/maxitem.json?print=pretty
 2701
 ```
 
-### New, Top and Best Stories
+### New and Top Stories
 
 Up to 500 top and new stories are at `/v0/topstories` and `/v0/newstories`.
 
@@ -141,15 +141,3 @@ Example: https://laarrc.firebaseio.com/v0/topstories.json?print=pretty
 [ 2700, 2698, 2699, 2697, 2695, 2696, 2693, 2692, 2691, ..., 2018 ]
 ```
 
-### Changed Items and Profiles
-
-The item and profile changes are at `/v0/updates`.
-
-Example: https://laarrc.firebaseio.com/v0/updates.json?print=pretty
-
-```javascript
-{
-  "items" : [ 614, 610, 605, 603, 602, 601, 599, 598, 597, 596, 595, 594, 593, 592, 591, 590, 589, 588, 587, 586, 585, 584, 583, 581, 579, 578, 577, 575, 574, 572, 571, 569, 568, 566, 565, 563, 562, 561, 560, 559, 558, 557, 556, 555, 554, 553, 552, 551, 550, 549, 548, 547, 546, 545, 544, 537, 536, 535, 534, 533, 530, 529, 528, 527, 526, 525, 523, 522, 520, 519, 517, 516, 514, 513, 512, 511, 510, 509, 508, 507, 504, 503, 502, 501, 499, 498, 497, 495, 494, 493, 492, 490, 483, 482, 481, 479, 478, 477, 476, 474, 472, 471, 469, 468, 466, 464, 459, 458, 457, 456, 455, 454, 452, 451, 449, 448, 447, 446, 445, 444, 443, 442, 441, 440, 439, 438, 437, 435, 434, 433, 432, 431, 430, 429, 428, 426, 424, 423, 422, 419, 417, 416, 413, 410, 409, 406, 405, 404, 403, 402, 401, 400, 399, 398, 397, 396, 391, 389, 388, 387, 386, 385, 384, 383, 382, 380, 377, 376, 375, 374, 373, 371, 365, 364, 363, 362, 361, 360, 359, 358, 357, 354, 353, 352, 351, 350, 346, 345, 344, 343, 342, 334, 326, 314, 307, 306, 303, 302, 300, 299, 298, 297, 296, 295, 294, 293, 292, 291, 290, 289, 288, 286, 284, 281, 280, 279, 277, 275, 274, 271, 270, 269, 268, 266, 265, 259, 257, 254, 253, 251, 247, 246, 243, 241, 238, 237, 235, 230, 229, 227, 226, 225, 223, 222, 220, 215, 214, 212, 210, 209, 208, 207, 206, 204, 203, 201, 200, 198, 197, 196, 195, 194, 193, 189, 187, 186, 185, 184, 182, 179, 176, 175, 173, 172, 171, 167, 166, 165, 164, 162, 161, 158, 157, 156, 155, 152, 151, 150, 148, 142, 140, 138, 137, 135, 133, 131, 129, 127, 126, 125, 124, 123, 122, 120, 119, 117, 116, 115, 114, 113, 111, 110, 109, 108, 107, 106, 104, 103, 102, 101, 99, 98, 97, 96, 95, 94, 92, 90, 89, 88, 87, 86, 85, 84, 83, 82, 76, 75, 74, 72, 71, 70, 69, 68, 67, 66, 65, 64, 63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 28, 27, 26, 25, 24, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 10, 9, 8, 6, 5, 4, 3, 1 ],
-  "profiles" : [ "sheminusminus", "RA_Fisher", "rain1", "miles", "sillysaurus", "phyllis", "nickpsecurity", "JungleCat", "palish", "akkartik", "nickb", "Doreen", "mrcharlesnw" ]
-}
-```
